@@ -10,7 +10,7 @@ import os
 #Encrypted master password: "Secret"
 masterPasswordCheck = b'8YUZj7jA8vfqM+pShJyOznToSPGx3eOCFikdhfEWS/k='
 
-saver = Saver("passwords.txt")
+saver = Saver("PASSWORDMANAGER\passwords.txt")
 passwords = saver.read()
 
 loggedIn = False
