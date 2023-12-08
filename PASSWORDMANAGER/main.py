@@ -81,7 +81,7 @@ while True:
             continue
         else:
             # Enter in your email.
-            user_email = 'user@gmail.com'
+            user_email = input("Enter your Email: ")
 
             # Generate a random authentication code
             authentication_code = generate_random_code()
