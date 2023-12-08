@@ -1,6 +1,8 @@
 from encrypt import AES256
 from save import Saver
 import os
+import string
+import random
 
 #Set up master password check.
 #uncomment the lines 6 and 7 then run Main.py to get masterPasswordCheck variable
@@ -9,6 +11,24 @@ import os
 
 #Encrypted master password: "Secret"
 masterPasswordCheck = b'8YUZj7jA8vfqM+pShJyOznToSPGx3eOCFikdhfEWS/k='
+
+def generate_password(length=12, use_uppercase=True, use_lowercase=True, use_digits=True, use_special_chars=True):
+    characters = ""
+            
+    if use_uppercase:
+        characters += string.ascii_uppercase
+    if use_lowercase:
+        characters += string.ascii_lowercase
+    if use_digits:
+        characters += string.digits
+    if use_special_chars:
+        characters += string.punctuation
+
+    if not any([use_uppercase, use_lowercase, use_digits, use_special_chars]):
+        raise ValueError("At least one character set should be selected.")
+
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
 
 saver = Saver("PASSWORDMANAGER\passwords.txt")
 passwords = saver.read()
@@ -37,12 +57,13 @@ while True:
     print("1. Find Password")
     print("2. Add Password")
     print("3. Delete Password")
+    print("4. Generate a Password")
 
     print("\nChoice: ", end="")
     choice = int(input())
 
-    if choice < 1 or choice > 3:
-        print("Choice needs to be a number between 1 and 3")
+    if choice < 1 or choice > 4:
+        print("Choice needs to be a number between 1 and 4")
         input()
         continue
 
@@ -75,3 +96,11 @@ while True:
                     saver.save(passwords)
 
                 break
+    
+    elif choice == 4:
+        # store all characters in lists 
+        
+        # Example usage:
+        password = generate_password()
+        print("Strong Password: " + password)
+        input()
