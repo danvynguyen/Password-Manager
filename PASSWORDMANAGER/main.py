@@ -3,6 +3,8 @@ from save import Saver
 import os
 import string
 import random
+import smtplib
+from email.mime.text import MIMEText
 
 #Set up master password check.
 #uncomment the lines 6 and 7 then run Main.py to get masterPasswordCheck variable
@@ -12,6 +14,7 @@ import random
 #Encrypted master password: "Secret"
 masterPasswordCheck = b'8YUZj7jA8vfqM+pShJyOznToSPGx3eOCFikdhfEWS/k='
 
+#generate password function
 def generate_password(length=12, use_uppercase=True, use_lowercase=True, use_digits=True, use_special_chars=True):
     characters = ""
             
@@ -29,6 +32,34 @@ def generate_password(length=12, use_uppercase=True, use_lowercase=True, use_dig
 
     password = ''.join(random.choice(characters) for _ in range(length))
     return password
+
+def generate_random_code(length=6):
+    return ''.join(random.choices(string.digits, k=length))
+
+def send_authentication_code(email, code):
+    # Set up your email configuration
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+    smtp_username = 'joeblokson@gmail.com'
+    smtp_password = 'dpag uwdn lxzv gyaa'
+
+    # Sender and recipient email addresses
+    sender_email = 'joeblokson@gmail.com'
+    recipient_email = email
+
+    # Create the email message
+    subject = 'Authentication Code'
+    body = f'Your authentication code is: {code}'
+    message = MIMEText(body)
+    message['Subject'] = subject
+    message['From'] = sender_email
+    message['To'] = recipient_email
+
+    # Connect to the SMTP server and send the email
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+        server.sendmail(sender_email, recipient_email, message.as_string())
 
 saver = Saver("PASSWORDMANAGER\passwords.txt")
 passwords = saver.read()
@@ -49,7 +80,24 @@ while True:
             input()
             continue
         else:
-            loggedIn = True
+            # Enter in your email.
+            user_email = 'user@gmail.com'
+
+            # Generate a random authentication code
+            authentication_code = generate_random_code()
+
+            # Send the authentication code to the user's email
+            send_authentication_code(user_email, authentication_code)
+
+            # Now, prompt the user to enter the received code for verification
+            user_input = input("Enter the authentication code received in your email: ")
+
+            # Verify the entered code
+            if user_input == authentication_code:
+                print("Authentication successful!")
+                loggedIn = True
+            else:
+                print("Authentication failed. Please try again.")
 
     #clears console
     os.system("cls")
