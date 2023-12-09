@@ -10,6 +10,8 @@ from email.mime.text import MIMEText
 #uncomment the lines 6 and 7 then run Main.py to get masterPasswordCheck variable
 #e = AES256("Secret")
 #print(e.encrypt("textToMatch"))
+#Inspired by: https://www.youtube.com/watch?v=nJtJ1wUACOY  
+#(Original features implemented by us: 2-factor authenication and password generator)
 
 #Encrypted master password: "Secret"
 masterPasswordCheck = b'8YUZj7jA8vfqM+pShJyOznToSPGx3eOCFikdhfEWS/k='
@@ -40,7 +42,7 @@ def send_authentication_code(email, code):
     # Set up your email configuration
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    smtp_username = 'joeblokson@gmail.com'
+    smtp_username = 'joeblokson@gmail.com' #(using my personal email)
     smtp_password = 'dpag uwdn lxzv gyaa'
 
     # Sender and recipient email addresses
